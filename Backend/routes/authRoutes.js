@@ -2,7 +2,8 @@ import express from "express";
 import authControllers from "../controllers/authControllers.js";
 const router  = express.Router();
 
-router.post("/register",authControllers.registerUser);
+//api/auth/register
+router.post("/register",authControllers.registerUser); //user account created
 
 export default router;
 

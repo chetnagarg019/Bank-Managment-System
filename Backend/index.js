@@ -5,6 +5,7 @@ import express from "express";
 import cors from "cors";
 import connectedDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import cookieParser from "cookie-parser";
 
 connectedDB();
 
@@ -13,9 +14,11 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended : true })); // middleware 
+app.use(cookieParser())
+
 
 app.get("/", (req, res) => {
-  res.send("Server can connected");
+  res.send("Server can is connected");
 });
 
 app.use("/api/auth",authRoutes);
