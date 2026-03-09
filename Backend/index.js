@@ -14,7 +14,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended : true })); // middleware 
-app.use(cookieParser())
+app.use(cookieParser());//token store
 
 
 app.get("/", (req, res) => {

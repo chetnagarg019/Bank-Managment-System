@@ -29,7 +29,13 @@ async function registerUser(req, res) {
     { expiresIn: "7d" } //Matlab token 7 din me expire ho jayega.
   );
 
-  res
+  //token save in cookie parser
+  res.cookie("token",token,{
+    httpOnly : true,
+    secure : false
+  });
+
+  
 
 
 
@@ -40,8 +46,11 @@ async function registerUser(req, res) {
         name: user.name,
         email: user.email,
       },
+      token
     });
   } catch (error) {
+    console.log(error);
+    
     res.status(500).json({ message: "Server error" });
   }
 }

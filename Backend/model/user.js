@@ -30,16 +30,16 @@ const userSchema = new mongoose.Schema(
 
 );
 
-userSchema.pre("save",async function (next){ //Ye middleware hai jo save hone se pehle run hota hai.
+userSchema.pre("save",async function (){ //Ye middleware hai jo save hone se pehle run hota hai.
 
     if(!this.isModified("password")){ //Agar password update nahi hua hai to hash nahi karega.
-        return next();
+        return;
     }
 
     const hash = await bcrypt.hash(this.password,10); //Ye password ko hash karta hai.
     this.password = hash //Original password ko replace karke hashed password store kar diya.
 
-    return next() //Middleware ko next step par move karne ke liye
+    return //Middleware ko next step par move karne ke liye
 })
 
 //Ye login ke time password verify karta hai. User jo password enter karta hai usko database ke hashed password se compare karta hai.
