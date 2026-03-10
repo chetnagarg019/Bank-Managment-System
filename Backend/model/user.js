@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs" //Ye library password ko hash (encrypt) karne ke liye use hoti hai.
+import bcrypt from "bcrypt" //Ye library password ko hash (encrypt) karne ke liye use hoti hai.
 
 const userSchema = new mongoose.Schema(
     {

@@ -4,6 +4,9 @@ const router  = express.Router();
 
 //api/auth/register
 router.post("/register",authControllers.registerUser); //user account created
+router.post("/login",authControllers.loginUser);
+
+
 
 export default router;
 
