@@ -37,6 +37,14 @@ async function registerUser(req, res) {
       secure: false,
     });
 
+    // send welcome email after successful registration
+    try {
+      await emailService.sendRegistrationEmail(user.email, user.name);
+    } catch (emailError) {
+      // log error but don't prevent response to client
+      console.error('Failed to send registration email:', emailError);
+    }
+
     res.status(200).json({
       message: "signup Succesfully",
       user: {
@@ -51,8 +59,6 @@ async function registerUser(req, res) {
 
     res.status(500).json({ message: "Server error" });
   }
-
-  await emailService.sendRegistrationEmail(User.email,User.name)
 }
 //-------------------------
 
@@ -108,3 +114,5 @@ async function loginUser(req, res) {
 }
 
 export default { registerUser, loginUser };
+
+//totototo
