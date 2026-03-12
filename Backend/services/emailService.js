@@ -1,21 +1,22 @@
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
+//Nodemailer ek Node.js library hai jo email send karne ke liye use hoti hai.
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
+const transporter = nodemailer.createTransport({ //Transporter = email bhejne ka vehicle
+  service: 'gmail', //Gmail use kar rahe
   auth: {
-    type: 'OAuth2',
-    user: process.env.EMAIL_USER,
-    clientId: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
-    refreshToken: process.env.REFRESH_TOKEN,
+    type: 'OAuth2', //OAuth2 authentication
+    user: process.env.EMAIL_USER, //Gmail account
+    clientId: process.env.CLIENT_ID, //Google API client id
+    clientSecret: process.env.CLIENT_SECRET, //Google API secret
+    refreshToken: process.env.REFRESH_TOKEN, //token jo access deta hai email bhejne ka
   },
 });
 
 // Verify the connection configuration
-transporter.verify((error, success) => {
+transporter.verify((error, success) => { //Email server sahi se connect ho raha hai ya nahi
   if (error) {
     console.error('Error connecting to email server:', error);
   } else {
@@ -23,8 +24,8 @@ transporter.verify((error, success) => {
   }
 });
 
-// Function to send email
-const sendEmail = async (to, subject, text, html) => {
+// Function to send email 
+const sendEmail = async (to, subject, text, html) => { //Ye general function hai jo kisi ko bhi email bhej sakta hai.
   try {
     const info = await transporter.sendMail({
       from: `"Backend Ledger" <${process.env.EMAIL_USER}>`, // sender address
@@ -49,7 +50,7 @@ async function sendRegistrationEmail(userEmail,name){
     const html = `<p>Hello ${name},</p> <p>Thank you for registering at Backend Ledger.
     We are exicted to have you on board!</p><p>Best Regards,<br>The Backend Ledger Team</p>`;
 
-    await sendEmail(userEmail,subject,text,html);
+    await sendEmail(userEmail,subject,text,html); //Ye special function hai jo registration ke baad email bhejta hai.
 
 }
 
