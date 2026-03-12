@@ -9,10 +9,12 @@ const accountSchema = new mongoose.Schema({
 
     },
     status : {
+        type : String,
         enum : { //enum ka matlab:
             values : ["Active","Frozen","Closed"], //Status sirf in values me se hi ho sakta hai.
-            message : "Status can be active,frozen or closed"
-        }
+            message : "Status can be active,frozen or closed",
+        },
+        default : "Active"
     },
     currency : { //Ye field batata hai account ki currency.
         type : String,
@@ -20,7 +22,7 @@ const accountSchema = new mongoose.Schema({
         default : "INR" //Agar currency nahi di to:
     }
 },{
-    tilestamps : true
+    timestamps : true
 })
 
 accountSchema.index({ user : 1, status : 1 }) //Ye compound index hai. Matlab database fast search karega jab query ho:

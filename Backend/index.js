@@ -6,6 +6,8 @@ import cors from "cors";
 import connectedDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import cookieParser from "cookie-parser";
+import accountRoutes from "./routes/accountRoutes.js"
+
 
 connectedDB();
 
@@ -22,6 +24,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth",authRoutes);
+app.use("/api/accounts",accountRoutes);
+
+
 
 const PORT = process.env.PORT || 5000;
 
