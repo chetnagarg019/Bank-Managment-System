@@ -13,4 +13,4 @@ async function createAccount(req,res) {
     })
 }
 
-export default { createAccount }
+export default { createAccount } // it is a create account method that 

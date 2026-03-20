@@ -28,7 +28,7 @@ async function registerUser(req, res) {
       // ye 3 chize leta hai
       { id: user._id }, //Payload (Token ke andar kya store hoga)
       process.env.JWT_SECRET, //Ye secret key hoti hai jo token ko sign karti hai. Server jab token banata hai to secret key use karta hai.
-      { expiresIn: "7d" }, //Matlab token 7 din me expire ho jayega.
+      { expiresIn: "20d" }, //Matlab token 7 din me expire ho jayega.
     );
 
     //token save in cookie parser
