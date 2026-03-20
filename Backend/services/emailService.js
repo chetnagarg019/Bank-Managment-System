@@ -4,24 +4,38 @@ import nodemailer from "nodemailer";
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({ //Transporter = email bhejne ka vehicle
-  service: 'gmail', //Gmail use kar rahe
-  auth: {
-    type: 'OAuth2', //OAuth2 authentication
-    user: process.env.EMAIL_USER, //Gmail account
-    clientId: process.env.CLIENT_ID, //Google API client id
-    clientSecret: process.env.CLIENT_SECRET, //Google API secret
-    refreshToken: process.env.REFRESH_TOKEN, //token jo access deta hai email bhejne ka
-  },
-});
+// ------------------------------------------------------------------------------------------
 
-// Verify the connection configuration
-transporter.verify((error, success) => { //Email server sahi se connect ho raha hai ya nahi
-  if (error) {
-    console.error('Error connecting to email server:', error);
-  } else {
-    console.log('Email server is ready to send messages');
-  }
+// const transporter = nodemailer.createTransport({ //Transporter = email bhejne ka vehicle
+//   service: 'gmail', //Gmail use kar rahe
+//   auth: {
+//     type: 'OAuth2', //OAuth2 authentication
+//     user: process.env.EMAIL_USER, //Gmail account
+//     clientId: process.env.CLIENT_ID, //Google API client id
+//     clientSecret: process.env.CLIENT_SECRET, //Google API secret
+//     refreshToken: process.env.REFRESH_TOKEN, //token jo access deta hai email bhejne ka
+//   },
+// });
+
+// // Verify the connection configuration
+// transporter.verify((error, success) => { //Email server sahi se connect ho raha hai ya nahi
+//   if (error) {
+//     console.error('Error connecting to email server:', error);
+//   } else {
+//     console.log('Email server is ready to send messages');
+//   }
+// });
+
+// ------------------------------------------------------------------------------------------
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
 });
 
 // Function to send email 
