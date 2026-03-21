@@ -105,7 +105,7 @@ async function loginUser(req, res) {
         name: user.name,
       },
       token,
-    });
+    }); // login token that connect 
   } catch (error) {
     console.log(error);
 

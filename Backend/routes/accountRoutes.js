@@ -6,6 +6,6 @@ const router = express.Router();
 router.post("/",authMiddleware.authMiddleware,accountControllers.createAccount)
 
 
-export default router;
+export default router; //routes
 
 
