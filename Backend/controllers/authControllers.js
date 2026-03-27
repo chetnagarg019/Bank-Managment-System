@@ -42,8 +42,9 @@ async function registerUser(req, res) {
       await emailService.sendRegistrationEmail(user.email, user.name);
     } catch (emailError) {
       // log error but don't prevent response to client
-      console.error('Failed to send registration email:', emailError);
+      console.error("Failed to send registration email:", emailError);
     }
+    
 
     res.status(200).json({
       message: "signup Succesfully",
@@ -105,7 +106,7 @@ async function loginUser(req, res) {
         name: user.name,
       },
       token,
-    }); // login token that connect 
+    }); // login token that connect
   } catch (error) {
     console.log(error);
 

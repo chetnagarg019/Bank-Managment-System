@@ -4,42 +4,19 @@ import nodemailer from "nodemailer";
 
 dotenv.config();
 
-// ------------------------------------------------------------------------------------------
-
-// const transporter = nodemailer.createTransport({ //Transporter = email bhejne ka vehicle
-//   service: 'gmail', //Gmail use kar rahe
-//   auth: {
-//     type: 'OAuth2', //OAuth2 authentication
-//     user: process.env.EMAIL_USER, //Gmail account
-//     clientId: process.env.CLIENT_ID, //Google API client id
-//     clientSecret: process.env.CLIENT_SECRET, //Google API secret
-//     refreshToken: process.env.REFRESH_TOKEN, //token jo access deta hai email bhejne ka
-//   },
-// });
-
-// // Verify the connection configuration
-// transporter.verify((error, success) => { //Email server sahi se connect ho raha hai ya nahi
-//   if (error) {
-//     console.error('Error connecting to email server:', error);
-//   } else {
-//     console.log('Email server is ready to send messages');
-//   }
-// });
-
-// ------------------------------------------------------------------------------------------
-
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
-// Function to send email 
-const sendEmail = async (to, subject, text, html) => { //Ye general function hai jo kisi ko bhi email bhej sakta hai.
+// Function to send email
+const sendEmail = async (to, subject, text, html) => {
+  //Ye general function hai jo kisi ko bhi email bhej sakta hai.
   try {
     const info = await transporter.sendMail({
       from: `"Backend Ledger" <${process.env.EMAIL_USER}>`, // sender address
@@ -49,23 +26,21 @@ const sendEmail = async (to, subject, text, html) => { //Ye general function hai
       html, // html body
     });
 
-    console.log('Message sent: %s', info.messageId);
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    console.log("Message sent: %s", info.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error("Error sending email:", error);
   }
 };
 
-async function sendRegistrationEmail(userEmail,name){
-
-    const subject = 'Welcome to Backend Ledger!';
-    const text = `Hello ${name}, \n\n Thank you for registering at Backend Ledger.
+async function sendRegistrationEmail(userEmail, name) {
+  const subject = "Welcome to Backend Ledger!";
+  const text = `Hello ${name}, \n\n Thank you for registering at Backend Ledger.
     We're excited to have you on board!\n\n Best regards ,\n The Backend Ledger Team`;
-    const html = `<p>Hello ${name},</p> <p>Thank you for registering at Backend Ledger.
+  const html = `<p>Hello ${name},</p> <p>Thank you for registering at Backend Ledger.
     We are exicted to have you on board!</p><p>Best Regards,<br>The Backend Ledger Team</p>`;
 
-    await sendEmail(userEmail,subject,text,html); //Ye special function hai jo registration ke baad email bhejta hai.
-
+  await sendEmail(userEmail, subject, text, html); //Ye special function hai jo registration ke baad email bhejta hai.
 }
 
-export default {sendRegistrationEmail};
+export default { sendRegistrationEmail };

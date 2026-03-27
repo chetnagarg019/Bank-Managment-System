@@ -7,5 +7,6 @@ router.post("/",authMiddleware.authMiddleware,accountControllers.createAccount)
 
 
 export default router; //routes
+ 
 
-
+//
