@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({ //Ye batata hai email kis account se send hoga
   host: "smtp.gmail.com",
   port: 587,
   secure: false, // true for 465, false for other ports
@@ -25,7 +25,7 @@ const sendEmail = async (to, subject, text, html) => {
       text, // plain text body
       html, // html body
     });
-
+    
     console.log("Message sent: %s", info.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
   } catch (error) {
