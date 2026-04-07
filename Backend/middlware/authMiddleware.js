@@ -20,7 +20,7 @@ async function authMiddleware(req,res,next) {
         }
         req.user = user; //👉 Ab aage ke routes me directly user access kar sakte ho:
         return next(); //next function call
-    } catch (err) {
+    } catch (err) { 
         console.error('Auth middleware error:', err.message); //token expired ,token wrong
         return res.status(401).json({ message: 'Unauthorized - invalid token' });
     }

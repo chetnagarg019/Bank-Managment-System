@@ -116,4 +116,4 @@ async function loginUser(req, res) {
 
 export default { registerUser, loginUser };
 
-//totototo
+//User.create() internally .save() call karta hai
