@@ -43,4 +43,28 @@ async function sendRegistrationEmail(userEmail, name) {
   await sendEmail(userEmail, subject, text, html); //Ye special function hai jo registration ke baad email bhejta hai.
 }
 
-export default { sendRegistrationEmail };
+
+async function sendTransactionEmail(userEmail, name, amount, toAccount) {
+  const subject = "Transaction Successful";
+
+  const text = `Hello ${name},
+
+₹${amount} has been successfully transferred to account ${toAccount}.
+
+If this was not you, please contact support immediately.
+
+Regards,
+Backend Ledger Team`;
+
+  const html = `
+    <p>Hello ${name},</p>
+    <p><strong>₹${amount}</strong> has been successfully transferred to account 
+    <b>${toAccount}</b>.</p>
+    <p>If this was not you, please contact support immediately.</p>
+    <p>Regards,<br/>Backend Ledger Team</p>
+  `;
+
+  await sendEmail(userEmail, subject, text, html);
+}
+
+export default { sendRegistrationEmail,sendTransactionEmail };
