@@ -4,7 +4,8 @@ import nodemailer from "nodemailer";
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({ //Ye batata hai email kis account se send hoga
+const transporter = nodemailer.createTransport({
+  //Ye batata hai email kis account se send hoga
   host: "smtp.gmail.com",
   port: 587,
   secure: false, // true for 465, false for other ports
@@ -25,7 +26,7 @@ const sendEmail = async (to, subject, text, html) => {
       text, // plain text body
       html, // html body
     });
-    
+
     console.log("Message sent: %s", info.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
   } catch (error) {
@@ -42,7 +43,6 @@ async function sendRegistrationEmail(userEmail, name) {
 
   await sendEmail(userEmail, subject, text, html); //Ye special function hai jo registration ke baad email bhejta hai.
 }
-
 
 async function sendTransactionEmail(userEmail, name, amount, toAccount) {
   const subject = "Transaction Successful";
@@ -67,4 +67,28 @@ Backend Ledger Team`;
   await sendEmail(userEmail, subject, text, html);
 }
 
-export default { sendRegistrationEmail,sendTransactionEmail };
+//when transaction is failed 
+// when transaction is failed 
+async function sendTransactionFailureEmail(userEmail, name, amount, toAccount) {
+  const subject = "Transaction Failed";
+
+  const text = `Hello ${name},
+
+Your transaction of ₹${amount} to account ${toAccount} has failed.
+
+Please try again later or contact support if the issue persists.
+
+Regards,
+Backend Ledger Team`;
+
+  const html = `
+    <p>Hello ${name},</p>
+    <p>Your transaction of <strong>₹${amount}</strong> to account 
+    <b>${toAccount}</b> has <span style="color:red;"><b>failed</b></span>.</p>
+    <p>Please try again later or contact support if the issue persists.</p>
+    <p>Regards,<br/>Backend Ledger Team</p>
+  `;
+
+  await sendEmail(userEmail, subject, text, html);
+}
+export default { sendRegistrationEmail, sendTransactionEmail ,sendTransactionFailureEmail};

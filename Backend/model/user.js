@@ -21,6 +21,12 @@
         minlength: [6, "password should be more than 6 characters"],
         select: false, //Jab bhi user database se fetch hoga to password automatically hide rahega.
       },
+      systemUser : {
+        type:Boolean,
+        default:false,
+        immutable : true,
+        select : false
+      }
     },
     {
       timestamps: true, //createAt and updateAt apne aap add ho jayenge
