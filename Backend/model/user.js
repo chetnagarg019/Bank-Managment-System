@@ -21,7 +21,7 @@
         minlength: [6, "password should be more than 6 characters"],
         select: false, //Jab bhi user database se fetch hoga to password automatically hide rahega.
       },
-      systemUser : {
+      systemUser : { // normal account or user ke account me diffrentitate krne ke liye 
         type:Boolean,
         default:false,
         immutable : true,

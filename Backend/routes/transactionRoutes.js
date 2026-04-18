@@ -6,5 +6,7 @@ const router = express.Router();
 
 router.post("/", authMiddleware.authMiddleware,transactionController.createTransaction);
 
+// post /api/
+
 export default router;
 //half code is completed 
