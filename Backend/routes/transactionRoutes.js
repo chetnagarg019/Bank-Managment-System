@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.post("/", authMiddleware.authMiddleware,transactionController.createTransaction);
 
-// post /api/
+// post     /api/transaction/system/initial-funds
+//create initial funds transaction from system user 
+
+router.post("/system/initial-funds",authMiddleware.authSystemUserMiddleware,transactionController.createInitialFundsTransaction)
 
 export default router;
-//half code is completed 

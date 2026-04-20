@@ -4,6 +4,7 @@ import Transaction from "../model/transation.js";
 import ledgerModel from "../model/ledger.js";
 import Account from "../model/account.js";
 import mongoose from "mongoose";
+import transation from "../model/transation.js";
 
 async function createTransaction(req, res) {
   //step-1 validate request
@@ -161,7 +162,6 @@ async function createTransaction(req, res) {
 
 // “Sirf logged-in user hi transaction create kar sakta hai”
 
-export default { createTransaction };
 
 //✔️ Duplicate transaction na ho
 // ✔️ Invalid account use na ho
@@ -180,16 +180,82 @@ export default { createTransaction };
 //9.commit mongoDb session
 //10.send email notifaction
 
-//..
-//..
-//..
-//..
-//..
-//ledger //model
-//trabsaction //model
-//..
-//..
-//..
-//..
-//email
-//..
+
+//2nd controller 
+async function createInitialFundsTransaction(req,res){
+  //kiske account me paise jane hai kitne jane hai or idempotency key 
+
+  const { toAccount,amount,idempotencyKey} = req.body
+
+  if(!amount || !toAccount || !idempotencyKey){
+    return res.status(400).json({
+      message : "toAccount, amount, and idempotency key are required "
+    })
+  }
+
+  const toUserAccount = await Account.findOne({
+    _id:toAccount,
+  })
+
+  //id check krni hai to user account ki valid hai ya nhii 
+  if(!toUserAccount){
+    return res.status(400).json({
+      message : "Invalid account"
+    })
+  }
+
+  const fromUserAccount = await Account.findOne({
+    systemUser : true,
+    user : req.user._id
+  })
+
+  if(!fromUserAccount){
+    return res.status(400).json({
+      message : "System user account not found"
+    })
+  }
+
+  // 👉 Session create karna = ek safe block banana jisme operations ya to poore complete honge ya bilkul nahi honge
+  const session = await mongoose.startSession() //“Main ek transaction start kar rahi hoon jisme multiple operations ek saath safe tareeke se honge”
+  session.startTransaction()
+
+  const transaction = await Transation.create({ //👉 Ek entry create hui: kisne bheja, kisko bheja,kitna amount, key ye sb 
+    fromAccount : fromUserAccount._id,
+    toAccount,
+    amount,
+    idempotencyKey,
+    status : "Pending",
+  },{ session })
+
+  const debitLedgerEntry = await ledgerModel.create({ //System account se paise cut hue
+    account : fromUserAccount._id,
+    amount : amount,
+    transaction : transaction._id,
+    type : "Debit",
+  },{ session }) 
+
+  const creditLedgerEntry = await ledgerModel.create({ //👉 User ke account me paise add hue
+    account : toAccount,
+    amount : amount,
+    transaction : transaction._id,
+    type : "Credit",
+  },{ session })
+
+
+  transaction.status = "Completed"
+  await transaction.save({ session })
+
+  await session.commitTransaction()
+  session.endSession()
+
+  return res.status(201).json({
+    message : "Initial funds transaction are completed succesfully",
+    transaction : transaction
+  })
+
+
+  
+}
+
+export default { createTransaction, createInitialFundsTransaction };
+
