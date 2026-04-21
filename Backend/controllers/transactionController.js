@@ -4,7 +4,6 @@ import Transaction from "../model/transation.js";
 import ledgerModel from "../model/ledger.js";
 import Account from "../model/account.js";
 import mongoose from "mongoose";
-import transation from "../model/transation.js";
 
 async function createTransaction(req, res) {
   //step-1 validate request
@@ -205,7 +204,7 @@ async function createInitialFundsTransaction(req,res){
   }
 
   const fromUserAccount = await Account.findOne({
-    systemUser : true,
+    // systemUser : true,
     user : req.user._id
   })
 
@@ -219,7 +218,7 @@ async function createInitialFundsTransaction(req,res){
   const session = await mongoose.startSession() //“Main ek transaction start kar rahi hoon jisme multiple operations ek saath safe tareeke se honge”
   session.startTransaction()
 
-  const transaction = await Transation.create({ //👉 Ek entry create hui: kisne bheja, kisko bheja,kitna amount, key ye sb 
+  const transaction = await Transaction.create({ //👉 Ek entry create hui: kisne bheja, kisko bheja,kitna amount, key ye sb 
     fromAccount : fromUserAccount._id,
     toAccount,
     amount,
@@ -243,15 +242,15 @@ async function createInitialFundsTransaction(req,res){
 
 
   transaction.status = "Completed"
-  await transaction.save({ session })
+  await transaction.save({ session })    
 
-  await session.commitTransaction()
+  await session.commitTransaction()//sab changes database me permanently save ho gaye ✅
   session.endSession()
 
   return res.status(201).json({
     message : "Initial funds transaction are completed succesfully",
     transaction : transaction
-  })
+  }) //👉 Client ko success response mil gaya
 
 
   

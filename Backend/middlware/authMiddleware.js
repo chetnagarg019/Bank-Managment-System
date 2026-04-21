@@ -37,7 +37,14 @@ async function authSystemUserMiddleware(req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET); // token verfiy
 
-    const user = await userModel.findById(decoded.userId).select("+systemUser"); //system user ek property hai jo ki btbati hai ki ek user admin hai ya normal user , admin ke paas bhutt jyada power hoti hai
+    const user = await User.findById(decoded.id).select("+systemUser"); //system user ek property hai jo ki btbati hai ki ek user admin hai ya normal user , admin ke paas bhutt jyada power hoti hai
+
+    if (!user) {
+      return res.status(401).json({
+        message: "Invalid token user",
+      });
+    }
+
     if (!user.systemUser) {
       return res.status(403).json({
         message: "Forbidden access not a system user",
@@ -54,4 +61,4 @@ async function authSystemUserMiddleware(req, res, next) {
   }
 }
 
-export default { authMiddleware, authSystemUserMiddleware    };
+export default { authMiddleware, authSystemUserMiddleware };

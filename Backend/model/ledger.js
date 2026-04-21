@@ -50,7 +50,7 @@ ledgerSchema.pre('findOneAndReplace',preventLedgerModification);
 
 
 const ledgerModel = mongoose.model('ledger',ledgerSchema);
-export default { ledgerModel }
+export default  ledgerModel ;
 
 // Ye model ensure karta hai:
 

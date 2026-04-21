@@ -7,6 +7,7 @@ import connectedDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import cookieParser from "cookie-parser";
 import accountRoutes from "./routes/accountRoutes.js"
+import transactionRoutes from "./routes/transactionRoutes.js"
 
 
 connectedDB();
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth",authRoutes);
 app.use("/api/accounts",accountRoutes);
+app.use("/api/transactions", transactionRoutes); 
 
 
 
